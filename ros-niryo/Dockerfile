@@ -8,6 +8,8 @@ ENV LC_ALL C.UTF-8
 
 ENV ROS_DISTRO melodic
 
+RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
+
 #RUN apt-get update \
 #    && apt-get install -y --no-install-recommends ros-melodic-desktop-full \
 #    && rm -rf /var/lib/apt/lists/*

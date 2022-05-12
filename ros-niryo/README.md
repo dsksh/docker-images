@@ -4,8 +4,14 @@ Image available on Docker Hub: [https://hub.docker.com/r/dsksh/ros-niryo](https:
 
 ## Running with GUI on the host X server
 
+Allow root authentication on the host:
 ```sh
-$ docker run --rm -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/.Xauthority:/.Xauthority -e XAUTHORITY="/.Xauthority" ros-niryo
+$ xhost +SI:localuser:root
+```
+
+Execute a Docker container:
+```sh
+$ docker run --rm -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix dsksh/ros-niryo
 ```
 
 <!-- EOF -->
