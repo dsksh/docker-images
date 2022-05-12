@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
 
 ##############################################################################
-##                          for using nvidia gpu                            ##
+##                          For using NVIDIA gpu                            ##
 ##############################################################################
 RUN apt-get update && apt-get install -y --no-install-recommends \
     pkg-config \
@@ -18,9 +18,8 @@ ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES graphics
 
 ##############################################################################
-##                                  common                                  ##
+##                                  Common                                  ##
 ##############################################################################
-# install ifconfig & ping
 RUN apt-get update && apt-get install -y --no-install-recommends \
     usbutils \
     curl \
@@ -31,7 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 ##############################################################################
-##                           azure kinect install                           ##
+##                           Azure Kinect install                           ##
 ##############################################################################
 RUN curl -SL https://packages.microsoft.com/keys/microsoft.asc | apt-key add \
     && apt-add-repository https://packages.microsoft.com/ubuntu/18.04/prod
