@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
 
 ##############################################################################
-##                          For using NVIDIA gpu                            ##
+##                          For using NVIDIA GPU                            ##
 ##############################################################################
 RUN apt-get update && apt-get install -y --no-install-recommends \
     pkg-config \
@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES graphics
+ENV NVIDIA_DRIVER_CAPABILITIES compute,graphics,utility
 
 ##############################################################################
 ##                                  Common                                  ##
@@ -27,19 +27,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     gnupg \
     software-properties-common \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 ##############################################################################
 ##                           Azure Kinect install                           ##
 ##############################################################################
-RUN curl -SL https://packages.microsoft.com/keys/microsoft.asc | apt-key add \
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add \
     && apt-add-repository https://packages.microsoft.com/ubuntu/18.04/prod
 RUN apt-get update && ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
     k4a-tools \
+    libk4a1.4 \
     libk4a1.4-dev \
     && rm -rf /var/lib/apt/lists/*
-
-#RUN mkdir -p /etc/udev/rules.d \
-#    && curl https://github.com/microsoft/Azure-Kinect-Sensor-SDK/raw/develop/scripts/99-k4a.rules -o /etc/udev/rules.d/99-k4a.rules
+RUN curl -sSL https://packages.microsoft.com/ubuntu/18.04/prod/pool/main/libk/libk4abt1.1/libk4abt1.1_1.1.1_amd64.deb -o /tmp/libk4abt1.1_1.1.1_amd64.deb \
+    && curl -sSL https://packages.microsoft.com/ubuntu/18.04/prod/pool/main/libk/libk4abt1.1-dev/libk4abt1.1-dev_1.1.1_amd64.deb -o /tmp/libk4abt1.1-dev_1.1.1_amd64.deb \
+    && echo 'libk4abt1.1 libk4abt1.1/accepted-eula-hash string 03a13b63730639eeb6626d24fd45cf25131ee8e8e0df3f1b63f552269b176e38' | debconf-set-selections \
+    && echo 'libk4abt1.1 libk4abt1.1/accept-eula select true' | debconf-set-selections \
+    && dpkg -i /tmp/libk4abt1.1_1.1.1_amd64.deb \
+    && dpkg -i /tmp/libk4abt1.1-dev_1.1.1_amd64.deb \
+    && rm -f /tmp/libk4abt1.1_1.1.1_amd64.deb /tmp/libk4abt1.1-dev_1.1.1_amd64.deb
 
 CMD ["bash"]
