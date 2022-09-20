@@ -1,0 +1,10 @@
+services:
+  openjdk:
+    build: .
+    container_name: openjdk
+    privileged: true
+    environment:
+      - DISPLAY=host.docker.internal:0
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix 
+      - ./src:/work/src
