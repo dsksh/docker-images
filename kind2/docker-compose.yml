@@ -1,0 +1,7 @@
+services:
+  kind2:
+    build: .
+    container_name: kind2
+    #volumes:
+    #  - /tmp/.X11-unix:/tmp/.X11-unix 
+    #  - ./src:/work/src
