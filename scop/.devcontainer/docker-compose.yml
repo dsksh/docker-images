@@ -1,0 +1,3 @@
+services:
+  scop:
+    command: sleep infinity

@@ -1,0 +1,6 @@
+services:
+  scop:
+    build: .
+    container_name: scop
+    volumes:
+      - ./instances:/work/instances
