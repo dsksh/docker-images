@@ -17,7 +17,7 @@
 2. Detach and reattach the Azure Kinect device.
 3. Execute a Docker container:
    ```sh
-   $ docker run --privileged --runtime=nvidia -rm -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix dsksh/azure-kinect
+   $ docker run --privileged --runtime=nvidia --rm -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix dsksh/azure-kinect
    ```
 4. Execute an app e.g. `k4aviewer` and `k4abt_simple_3d_viewer`.
 

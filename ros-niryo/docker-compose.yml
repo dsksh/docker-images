@@ -1,0 +1,23 @@
+version: '3'
+services:
+  ros-niryo:
+    build:
+      context: .
+      #args:
+      #  - UID=1000
+      #  - GID=1000
+    image: ros-niryo
+    container_name: ros-niryo1
+    privileged: true
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+    environment:
+      DISPLAY: $DISPLAY
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix 
+      - $PWD/src:/overlay_ws/src

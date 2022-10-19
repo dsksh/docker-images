@@ -72,7 +72,25 @@ RUN apt-get update && apt-get install -y python-pip \
     && pip install -U setuptools \
     && pip install readchar
 
+#
+
+ARG USERNAME=niryo
+ARG UID
+ARG GID
+
+RUN groupadd -g $GID $USERNAME \
+    && useradd -m -s /bin/bash -u $UID -g $GID $USERNAME \
+    && mkdir -p /overlay_ws/src \
+    && chown -R $UID:$GID /overlay_ws
+
+USER $USERNAME
+
+# Overlay workspace
+WORKDIR /overlay_ws/src
+
+RUN ["bash", "-c", ". /catkin_ws/devel/setup.bash && catkin_init_workspace"]
+
 # setup entrypoint
 COPY ./ros_entrypoint.sh /
-ENTRYPOINT ["/ros_entrypoint.sh"]
-CMD ["bash"]
+#ENTRYPOINT ["bash", "-c", "source /ros_entrypoint.sh"]
+ENTRYPOINT ["/bin/sh", "-c", "while :; do sleep 10; done"]
